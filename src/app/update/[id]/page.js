@@ -9,15 +9,17 @@ export default function Update() {
   const router = useRouter();
   const params = useParams();
   const id = params.id;
-  async function refresh() {
-    const resp = await fetch(process.env.NEXT_PUBLIC_API_URL + `/topics/${id}`);
-    const topic = await resp.json();
-    setTitle(topic.title);
-    setBody(topic.body);
-  }
+  const getUrl = `${process.env.NEXT_PUBLIC_API_URL}topics/${id}`;
+
   useEffect(() => {
+    async function refresh() {
+      const resp = await fetch(getUrl);
+      const topic = await resp.json();
+      setTitle(topic.title);
+      setBody(topic.body);
+    }
     refresh();
-  }, []);
+  }, [getUrl]);
   return (
     <form
       onSubmit={(e) => {
